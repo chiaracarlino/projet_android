@@ -49,18 +49,21 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
+    implementation(libs.retrofitGson)
+
     implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
+    implementation(libs.okhttpLogging)
+
     implementation(libs.gson)
 
     implementation(libs.glide)
-    //kapt(libs.glide.compiler)
+    annotationProcessor(libs.glideCompiler)
 
     implementation(libs.zxing)
 
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.livedata)
+    implementation(libs.lifecycleViewModel)
+    implementation(libs.lifecycleLiveData)
+
 
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
