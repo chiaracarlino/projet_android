@@ -55,7 +55,8 @@ dependencies {
     implementation(libs.gson)
 
     implementation(libs.glide)
-    //kapt(libs.glide.compiler)
+    kapt(libs.glideCompiler)
+
 
     implementation(libs.zxing)
 
