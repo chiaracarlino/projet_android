@@ -1,6 +1,6 @@
 package com.epf.android_project.api
 
-import com.epf.android_project.model.product
+import com.epf.android_project.model.Product
 import retrofit2.http.GET
 import retrofit2.http.Path
 
