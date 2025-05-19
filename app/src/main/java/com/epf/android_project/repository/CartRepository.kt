@@ -8,7 +8,7 @@ class CartRepository {
     private val cartItems = mutableListOf<CartItem>()
 
     fun addProduct(product: Product) {
-        val existingItem = cartItems.find { it.productId == product.id }
+        val existingItem = cartItems.find { it.product.id == product.id }
         if (existingItem != null) {
             existingItem.quantity++
         } else {
@@ -17,11 +17,11 @@ class CartRepository {
     }
 
     fun removeProduct(product: Product) {
-        cartItems.removeAll { it.productId == product.id }
+        cartItems.removeAll { it.product.id == product.id }
     }
 
     fun decreaseQuantity(product: Product) {
-        val existingItem = cartItems.find { it.productId == product.id }
+        val existingItem = cartItems.find { it.product.id == product.id }
         if (existingItem != null) {
             if (existingItem.quantity > 1) {
                 existingItem.quantity--
@@ -36,7 +36,7 @@ class CartRepository {
     }
 
     fun getCartItems(): List<CartItem> {
-        return cartItems.toList() // pour éviter les modifications externes
+        return cartItems.toList()
     }
 
     fun getTotalPrice(): Double {

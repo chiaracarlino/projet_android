@@ -35,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    //Pour activer ViewBinding pour le cartfragment etc
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
