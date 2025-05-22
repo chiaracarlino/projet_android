@@ -1,11 +1,11 @@
 package com.epf.android_project.repository
 
 import com.epf.android_project.api.RetrofitClient
+import com.epf.android_project.api.Service
 import com.epf.android_project.model.Product
-import java.security.Provider
 
 class ProductRepository {
-    private val api = RetrofitClient.retrofitInstance.create(Provider.Service::class.java)
+    private val api = RetrofitClient.retrofitInstance.create(Service::class.java)
 
     suspend fun getAllProducts(): List<Product> {
         return api.getAllProducts()
@@ -22,6 +22,14 @@ class ProductRepository {
     suspend fun getProductsByCategory(category: String): List<Product> {
         return api.getProductsByCategory(category)
     }
+
+    suspend fun searchProducts(query: String): List<Product> {
+        val allProducts = getAllProducts()
+        return allProducts.filter { product ->
+            product.title.contains(query, ignoreCase = true)
+        }
+    }
+
 }
 
 
