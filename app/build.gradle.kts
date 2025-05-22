@@ -36,7 +36,6 @@ android {
         jvmTarget = "11"
     }
 
-    //Pour activer ViewBinding pour le cartfragment etc
     buildFeatures {
         viewBinding = true
     }
@@ -74,7 +73,8 @@ dependencies {
     implementation(libs.navigation.ui)
 
     implementation(libs.coroutines)
-    implementation(libs.barcodescanner)
+    implementation(libs.zxingAndroidEmbedded)
+
 
 
 

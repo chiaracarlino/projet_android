@@ -3,104 +3,105 @@ package com.epf.android_project.ui.scanner
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.epf.android_project.R
-import com.epf.android_project.utils.Resource
-import com.google.zxing.Result
-import me.dm7.barcodescanner.zxing.ZXingScannerView
-import com.bumptech.glide.Glide
+import com.epf.android_project.databinding.FragmentScannerBinding
+import com.journeyapps.barcodescanner.BarcodeCallback
+import com.journeyapps.barcodescanner.BarcodeResult
+import com.journeyapps.barcodescanner.DecoratedBarcodeView
 
-class ScannerFragment : Fragment(), ZXingScannerView.ResultHandler {
+class ScannerFragment : Fragment() {
 
-    private lateinit var scannerView: ZXingScannerView
-    private val viewModel: ScannerViewModel by viewModels()
+    private var _binding: FragmentScannerBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var loader: ProgressBar
-    private lateinit var productLayout: LinearLayout
-    private lateinit var productImage: ImageView
-    private lateinit var productTitle: TextView
-    private lateinit var productPrice: TextView
-    private lateinit var errorMessage: TextView
+    private val CAMERA_PERMISSION_REQUEST_CODE = 1001
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val root = inflater.inflate(R.layout.fragment_scanner, container, false)
+        _binding = FragmentScannerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        scannerView = root.findViewById(R.id.scanner_view)
-        loader = root.findViewById(R.id.progress_bar)
-        productLayout = root.findViewById(R.id.product_layout)
-        productImage = root.findViewById(R.id.product_image)
-        productTitle = root.findViewById(R.id.product_title)
-        productPrice = root.findViewById(R.id.product_price)
-        errorMessage = root.findViewById(R.id.error_message)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        return root
+        if (hasCameraPermission()) {
+            startScanning()
+        } else {
+            requestCameraPermission()
+        }
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CAMERA),
+            CAMERA_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startScanning()
+            } else {
+                // Affiche un message à l’utilisateur que la permission est nécessaire
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    private val callback = object : BarcodeCallback {
+        override fun barcodeResult(result: BarcodeResult?) {
+            result?.let {
+                // Traite le résultat du scan ici
+                val scannedText = it.text
+                // Par exemple, afficher le code scanné
+                // Toast.makeText(requireContext(), "Scanné : $scannedText", Toast.LENGTH_SHORT).show()
+
+                // Stopper le scan après un résultat (optionnel)
+                binding.barcodeScanner.pause()
+            }
+        }
+
+        override fun possibleResultPoints(resultPoints: MutableList<com.google.zxing.ResultPoint>?) {
+        }
+    }
+
+    private fun startScanning() {
+        binding.barcodeScanner.decodeContinuous(callback)
+        binding.barcodeScanner.resume()
     }
 
     override fun onResume() {
         super.onResume()
-        scannerView.setResultHandler(this)
-        scannerView.startCamera()
-        requestCameraPermission()
-
-        viewModel.scannedProduct.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    loader.visibility = View.VISIBLE
-                    productLayout.visibility = View.GONE
-                    errorMessage.visibility = View.GONE
-                }
-
-                is Resource.Success -> {
-                    loader.visibility = View.GONE
-                    productLayout.visibility = View.VISIBLE
-                    errorMessage.visibility = View.GONE
-
-                    val product = result.data
-                    productTitle.text = product.title
-                    productPrice.text = "${product.price} €"
-                    Glide.with(this).load(product.image).into(productImage)
-                }
-
-                is Resource.Error -> {
-                    loader.visibility = View.GONE
-                    productLayout.visibility = View.GONE
-                    errorMessage.visibility = View.VISIBLE
-                    errorMessage.text = result.message
-                }
-
-                else -> Unit
-            }
+        if (hasCameraPermission()) {
+            binding.barcodeScanner.resume()
         }
-    }
-
-    override fun handleResult(rawResult: Result?) {
-        rawResult?.text?.let { scannedText ->
-            viewModel.processScannedQRCode(scannedText)
-        }
-        // scannerView.resumeCameraPreview(this) // À activer si tu veux scanner en boucle
     }
 
     override fun onPause() {
         super.onPause()
-        scannerView.stopCamera()
+        binding.barcodeScanner.pause()
     }
 
-    private fun requestCameraPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), 1)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

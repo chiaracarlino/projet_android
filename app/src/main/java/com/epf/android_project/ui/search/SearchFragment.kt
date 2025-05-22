@@ -11,14 +11,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epf.android_project.databinding.FragmentSearchBinding
 import com.epf.android_project.utils.Resource
+import com.epf.android_project.ui.product.ProductAdapter
 
 
 class SearchFragment : Fragment() {
 
-    private lateinit var binding: FragmentSearchBinding // si tu utilises ViewBinding
+    private lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
 
-    private lateinit var adapter: ProductAdapter // à créer, affiche la liste des produits
+    private lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +30,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = ProductAdapter() // adapter custom à créer
+        adapter = ProductAdapter()
 
         binding.productsRecyclerView.adapter = adapter
         binding.productsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
