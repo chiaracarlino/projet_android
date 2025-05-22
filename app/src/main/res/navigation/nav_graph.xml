@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.epf.android_project.ui.home.HomeFragment"
+        android:label="Accueil"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.epf.android_project.ui.search.SearchFragment"
+        android:label="Recherche" />
+
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.epf.android_project.ui.product.ProductFragment"
+        android:label="Produit">
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.epf.android_project.ui.cart.CartFragment"
+        android:label="Panier" />
+
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="com.epf.android_project.ui.scanner.ScannerFragment"
+        android:label="Scanner" />
+</navigation>

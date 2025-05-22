@@ -39,7 +39,6 @@ class ProductFragment : Fragment() {
             Toast.makeText(requireContext(), "Produit non trouvé", Toast.LENGTH_SHORT).show()
         }
 
-        // Observer selectedProduct StateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.selectedProduct.collectLatest { product ->
                 if (product != null) {
