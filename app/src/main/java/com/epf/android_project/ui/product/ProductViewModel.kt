@@ -1,40 +1,62 @@
 package com.epf.android_project.ui.product
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.epf.android_project.model.Product
-import com.epf.android_project.repository.CartRepository
 import com.epf.android_project.repository.ProductRepository
-import com.epf.android_project.utils.Resource
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel : ViewModel() {
-    private val productRepository = ProductRepository()
-    private val cartRepository = CartRepository()
 
-    private val _product = MutableLiveData<Resource<Product>>()
-    val product: LiveData<Resource<Product>> = _product
+    private val repository = ProductRepository()
 
-    private val _addToCartResult = MutableLiveData<Resource<Boolean>>()
-    val addToCartResult: LiveData<Resource<Boolean>> = _addToCartResult
+    private val _products = MutableStateFlow<List<Product>>(emptyList())
+    val products: StateFlow<List<Product>> = _products
 
-    fun loadProduct(productId: Int) {
+    private val _selectedProduct = MutableStateFlow<Product?>(null)
+    val selectedProduct: StateFlow<Product?> = _selectedProduct
+
+    private val _categories = MutableStateFlow<List<String>>(emptyList())
+    val categories: StateFlow<List<String>> = _categories
+
+    fun loadAllProducts() {
         viewModelScope.launch {
-            _product.value = Resource.Loading()
-            productRepository.getProductById(productId).collect { result ->
-                _product.value = result
+            try {
+                _products.value = repository.getAllProducts()
+            } catch (e: Exception) {
+                // gestion d'erreur ici
             }
         }
     }
 
-    fun addToCart(productId: Int, quantity: Int = 1) {
+    fun loadProductById(id: Int) {
         viewModelScope.launch {
-            _addToCartResult.value = Resource.Loading()
-            cartRepository.addToCart(productId, quantity).collect { result ->
-                _addToCartResult.value = result
+            try {
+                _selectedProduct.value = repository.getProductById(id)
+            } catch (e: Exception) {
+                // gestion d'erreur ici
+            }
+        }
+    }
+
+    fun loadCategories() {
+        viewModelScope.launch {
+            try {
+                _categories.value = repository.getCategories()
+            } catch (e: Exception) {
+                // gestion d'erreur ici
+            }
+        }
+    }
+
+    fun loadProductsByCategory(category: String) {
+        viewModelScope.launch {
+            try {
+                _products.value = repository.getProductsByCategory(category)
+            } catch (e: Exception) {
+                // gestion d'erreur ici
             }
         }
     }

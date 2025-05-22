@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
+
 }
 
 android {
@@ -33,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    //Pour activer ViewBinding pour le cartfragment etc
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,4 +52,31 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofitGson)
+
+    implementation(libs.okhttp)
+    implementation(libs.okhttpLogging)
+
+    implementation(libs.gson)
+
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
+
+    implementation(libs.zxing)
+
+    implementation(libs.lifecycleViewModel)
+    implementation(libs.lifecycleLiveData)
+
+
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+
+    implementation(libs.coroutines)
+
 }
+
+
+
+
