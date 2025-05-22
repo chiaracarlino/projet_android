@@ -29,38 +29,56 @@ class SearchViewModel : ViewModel() {
 
     private fun loadAllProducts() {
         viewModelScope.launch {
-            productRepository.getAllProducts().collect { result ->
-                _searchResults.value = result
+            try {
+                _searchResults.value = Resource.Loading()
+                val products = productRepository.getAllProducts()
+                _searchResults.value = Resource.Success(products)
+            } catch (e: Exception) {
+                _searchResults.value = Resource.Error(e.message ?: "Erreur inconnue")
             }
         }
     }
+
 
     private fun loadCategories() {
         viewModelScope.launch {
-            productRepository.getCategories().collect { result ->
-                _categories.value = result
+            try {
+                _categories.value = Resource.Loading()
+                val cats = productRepository.getCategories()
+                _categories.value = Resource.Success(cats)
+            } catch (e: Exception) {
+                _categories.value = Resource.Error(e.message ?: "Erreur inconnue")
             }
         }
     }
 
+
     fun searchProducts(query: String) {
         viewModelScope.launch {
-            _searchResults.value = Resource.Loading()
-            if (query.isBlank()) {
-                loadAllProducts()
-            } else {
-                productRepository.searchProducts(query).collect { result ->
-                    _searchResults.value = result
+            try {
+                _searchResults.value = Resource.Loading()
+                val products = if (query.isBlank()) {
+                    productRepository.getAllProducts()
+                } else {
+                    productRepository.searchProducts(query)
                 }
+                _searchResults.value = Resource.Success(products)
+            } catch (e: Exception) {
+                _searchResults.value = Resource.Error(e.message ?: "Erreur inconnue")
             }
         }
     }
 
     fun getProductsByCategory(category: String) {
         viewModelScope.launch {
-            productRepository.getProductsByCategory(category).collect { result ->
-                _categoryProducts.value = result
+            try {
+                _categoryProducts.value = Resource.Loading()
+                val products = productRepository.getProductsByCategory(category)
+                _categoryProducts.value = Resource.Success(products)
+            } catch (e: Exception) {
+                _categoryProducts.value = Resource.Error(e.message ?: "Erreur inconnue")
             }
         }
     }
+
 }

@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.navigation.ui)
 
     implementation(libs.coroutines)
+    implementation(libs.barcodescanner)
+
+
 
 }
 

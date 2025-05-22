@@ -41,6 +41,7 @@ lifecycleLiveData = { group = "androidx.lifecycle", name = "lifecycle-livedata-k
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+barcodescanner = { group = "me.dm7.barcodescanner", name = "zxing", version.ref = "zxing" }
 
 
 [plugins]
