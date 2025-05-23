@@ -21,6 +21,20 @@ class ProductViewModel : ViewModel() {
     private val _categories = MutableStateFlow<List<String>>(emptyList())
     val categories: StateFlow<List<String>> = _categories
 
+    private val _favorites = MutableStateFlow<List<Product>>(emptyList())
+    val favorites: StateFlow<List<Product>> = _favorites
+
+    fun toggleFavorite(product: Product) {
+        val updatedProduct = product.copy(isFavorite = !product.isFavorite)
+        val updatedList = _products.value.map {
+            if (it.id == product.id) updatedProduct else it
+        }
+
+        _products.value = updatedList
+        _favorites.value = updatedList.filter { it.isFavorite }
+    }
+
+
     fun loadAllProducts() {
         viewModelScope.launch {
             try {

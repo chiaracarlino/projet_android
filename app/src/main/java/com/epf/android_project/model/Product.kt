@@ -10,7 +10,8 @@ data class Product(
     val category: String,
     @SerializedName("image")
     val image: String,
-    val rating: Rating
+    val rating: Rating,
+    var isFavorite: Boolean = false
 )
 
 data class Rating(
