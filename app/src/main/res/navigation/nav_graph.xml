@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/productListFragment">
+
 
     <fragment
         android:id="@+id/homeFragment"
@@ -17,9 +18,22 @@
         android:label="Recherche" />
 
     <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.epf.android_project.ui.product.ProductListFragment"
+        android:label="Liste des produits" >
+        <action
+            android:id="@+id/action_productListFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
         android:id="@+id/productFragment"
         android:name="com.epf.android_project.ui.product.ProductFragment"
-        android:label="Produit">
+        android:label="Détail produit" >
         <argument
             android:name="productId"
             app:argType="integer" />
@@ -34,4 +48,11 @@
         android:id="@+id/scannerFragment"
         android:name="com.epf.android_project.ui.scanner.ScannerFragment"
         android:label="Scanner" />
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.epf.android_project.ui.favorites.FavoritesFragment"
+        android:label="Favoris"
+        tools:layout="@layout/fragment_favorites" />
+
 </navigation>

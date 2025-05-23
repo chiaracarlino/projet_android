@@ -28,6 +28,13 @@
             android:layout_weight="1"
             android:paddingStart="12dp">
 
+            <ImageView
+                android:id="@+id/favoriteIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_favorite_border"
+                android:contentDescription="@string/favorite_icon" />
+
             <TextView
                 android:id="@+id/product_title"
                 android:layout_width="match_parent"

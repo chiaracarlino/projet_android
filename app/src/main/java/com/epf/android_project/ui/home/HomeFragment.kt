@@ -51,6 +51,11 @@ class HomeFragment : Fragment() {
             }
         })
 
+        adapter.onFavoriteClick = {
+            viewModel.toggleFavorite(it)
+        }
+
+
         viewModel.loadAllProducts()
     }
 }

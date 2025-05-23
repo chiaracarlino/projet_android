@@ -15,7 +15,7 @@ okhttp = "4.11.0"
 glide = "4.16.0"
 zxing = "4.3.0"
 lifecycle = "2.6.2"
-navigation = "2.7.5"
+navigation = "2.7.7"
 coroutines = "1.7.3"
 
 
@@ -47,4 +47,5 @@ zxingAndroidEmbedded = "com.journeyapps:zxing-android-embedded:4.3.0"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version = "2.7.7" }
 

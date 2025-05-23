@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.epf.android_project.R
 import com.epf.android_project.databinding.ItemProductBinding
 import com.epf.android_project.model.Product
 
 class ProductAdapter(
     private val onItemClick: ((Product) -> Unit)? = null
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
+
+    var onFavoriteClick: ((Product) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,13 +26,10 @@ class ProductAdapter(
         holder.bind(product)
     }
 
-    inner class ProductViewHolder(private val binding: ItemProductBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
+    inner class ProductViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.productTitle.text = product.title
             binding.productPrice.text = "€${product.price}"
-            // Chargement image avec Glide
             Glide.with(binding.productImage.context)
                 .load(product.image)
                 .centerCrop()
@@ -37,6 +37,13 @@ class ProductAdapter(
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(product)
+            }
+
+            val heartIcon = if (product.isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            binding.favoriteIcon.setImageResource(heartIcon)
+
+            binding.favoriteIcon.setOnClickListener {
+                onFavoriteClick?.invoke(product)
             }
         }
     }
