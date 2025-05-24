@@ -32,7 +32,9 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productId = arguments?.getInt("productId") ?: -1
+        val args = ProductFragmentArgs.fromBundle(requireArguments())
+        val productId = args.productId
+
         if (productId != -1) {
             viewModel.loadProductById(productId)
         } else {
