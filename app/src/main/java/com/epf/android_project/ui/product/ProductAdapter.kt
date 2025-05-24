@@ -24,6 +24,10 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = getItem(position)
         holder.bind(product)
+        holder.itemView.setOnClickListener {
+            onItemClick?.let { it1 -> it1(product) }
+        }
+
     }
 
     inner class ProductViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {

@@ -8,9 +8,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epf.android_project.databinding.FragmentHomeBinding
 import com.epf.android_project.ui.product.ProductAdapter
+import com.epf.android_project.ui.product.ProductListFragment
 import com.epf.android_project.ui.product.ProductViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,7 +32,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = ProductAdapter()
+        adapter = ProductAdapter { product ->
+            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(product.id)
+            view.findNavController().navigate(action)
+        }
+
         binding.productsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRecyclerView.adapter = adapter
 
