@@ -11,8 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.epf.android_project.databinding.FragmentProductBinding
 import com.epf.android_project.model.Product
+import com.epf.android_project.ui.cart.CartViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.fragment.app.activityViewModels
+
 
 class ProductFragment : Fragment() {
 
@@ -20,6 +23,8 @@ class ProductFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProductViewModel by viewModels()
+    private val cartViewModel: CartViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +57,11 @@ class ProductFragment : Fragment() {
         binding.addToCartButton.setOnClickListener {
             val product = viewModel.selectedProduct.value
             if (product != null) {
+                cartViewModel.addProductToCart(product)
                 Toast.makeText(requireContext(), "Ajouté au panier", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun showProduct(product: Product) {

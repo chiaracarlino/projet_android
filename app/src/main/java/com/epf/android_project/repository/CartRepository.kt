@@ -3,7 +3,7 @@ package com.epf.android_project.repository
 import com.epf.android_project.model.CartItem
 import com.epf.android_project.model.Product
 
-class CartRepository {
+object CartRepository {
 
     private val cartItems = mutableListOf<CartItem>()
 
