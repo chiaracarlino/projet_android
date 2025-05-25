@@ -50,9 +50,6 @@ class CartFragment : Fragment() {
             }
         }
 
-        binding.checkoutButton.setOnClickListener {
-            // Action de validation du panier (ex: Toast ou navigation)
-        }
     }
 
     override fun onDestroyView() {
