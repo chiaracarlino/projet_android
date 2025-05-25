@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epf.android_project.databinding.FragmentCartBinding
@@ -17,7 +17,8 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
 
-    private val cartViewModel: CartViewModel by viewModels()
+    private val cartViewModel: CartViewModel by activityViewModels()
+
     private lateinit var cartAdapter: CartAdapter
 
     override fun onCreateView(
@@ -44,7 +45,8 @@ class CartFragment : Fragment() {
         lifecycleScope.launch {
             cartViewModel.cartItems.collectLatest { items ->
                 cartAdapter.submitList(items)
-                binding.totalPriceText.text = "Total: €${String.format("%.2f", cartViewModel.getTotalPrice())}"
+                val totalPrice = cartViewModel.getTotalPrice()
+                binding.totalPriceText.text = "Total: €${String.format("%.2f", totalPrice)}"
             }
         }
 

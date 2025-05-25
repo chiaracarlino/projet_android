@@ -11,8 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.epf.android_project.databinding.FragmentProductBinding
 import com.epf.android_project.model.Product
+import com.epf.android_project.ui.cart.CartViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.fragment.app.activityViewModels
+
 
 class ProductFragment : Fragment() {
 
@@ -20,6 +23,8 @@ class ProductFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProductViewModel by viewModels()
+    private val cartViewModel: CartViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +56,30 @@ class ProductFragment : Fragment() {
 
         binding.addToCartButton.setOnClickListener {
             val product = viewModel.selectedProduct.value
+            val quantity = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+
             if (product != null) {
-                Toast.makeText(requireContext(), "Ajouté au panier", Toast.LENGTH_SHORT).show()
+                repeat(quantity) {
+                    cartViewModel.addProductToCart(product)
+                }
+                Toast.makeText(requireContext(), "$quantity ajouté(s) au panier", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        binding.increaseQuantityButton.setOnClickListener {
+            val current = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+            binding.quantityEditText.setText((current + 1).toString())
+        }
+
+        binding.decreaseQuantityButton.setOnClickListener {
+            val current = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+            if (current > 1) {
+                binding.quantityEditText.setText((current - 1).toString())
             }
         }
+
+
     }
 
     private fun showProduct(product: Product) {
