@@ -56,11 +56,29 @@ class ProductFragment : Fragment() {
 
         binding.addToCartButton.setOnClickListener {
             val product = viewModel.selectedProduct.value
+            val quantity = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+
             if (product != null) {
-                cartViewModel.addProductToCart(product)
-                Toast.makeText(requireContext(), "Ajouté au panier", Toast.LENGTH_SHORT).show()
+                repeat(quantity) {
+                    cartViewModel.addProductToCart(product)
+                }
+                Toast.makeText(requireContext(), "$quantity ajouté(s) au panier", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        binding.increaseQuantityButton.setOnClickListener {
+            val current = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+            binding.quantityEditText.setText((current + 1).toString())
+        }
+
+        binding.decreaseQuantityButton.setOnClickListener {
+            val current = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
+            if (current > 1) {
+                binding.quantityEditText.setText((current - 1).toString())
             }
         }
+
 
     }
 

@@ -17,14 +17,14 @@ class CartAdapter(
 ) : ListAdapter<CartItem, CartAdapter.CartViewHolder>(DIFF_CALLBACK) {
 
     inner class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleText: TextView = itemView.findViewById(R.id.titleText)
-        private val quantityText: TextView = itemView.findViewById(R.id.quantityText)
-        private val removeButton: Button = itemView.findViewById(R.id.removeButton)
-        private val decreaseButton: Button = itemView.findViewById(R.id.decreaseButton)
+        val title: TextView = itemView.findViewById(R.id.titleText)
+        val details: TextView = itemView.findViewById(R.id.quantityText)
+        val removeButton: Button = itemView.findViewById(R.id.removeButton)
+        val decreaseButton: Button = itemView.findViewById(R.id.decreaseButton)
 
         fun bind(item: CartItem) {
-            titleText.text = item.product.title
-            quantityText.text = "Quantité : ${item.quantity}"
+            title.text = item.product.title
+            details.text = "Quantité : ${item.quantity}"
 
             removeButton.setOnClickListener {
                 onRemoveClick(item.product)
@@ -42,7 +42,23 @@ class CartAdapter(
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+
+        holder.title.text = item.product.title
+
+        val unitPrice = item.product.price
+        val quantity = item.quantity
+        val total = unitPrice * quantity
+
+        holder.details.text = "€${String.format("%.2f", unitPrice)} × $quantity = €${String.format("%.2f", total)}"
+
+        holder.removeButton.setOnClickListener {
+            onRemoveClick(item.product)
+        }
+
+        holder.decreaseButton.setOnClickListener {
+            onDecreaseClick(item.product)
+        }
     }
 
     companion object {

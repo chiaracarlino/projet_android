@@ -45,7 +45,8 @@ class CartFragment : Fragment() {
         lifecycleScope.launch {
             cartViewModel.cartItems.collectLatest { items ->
                 cartAdapter.submitList(items)
-                binding.totalPriceText.text = "Total: €${String.format("%.2f", cartViewModel.getTotalPrice())}"
+                val totalPrice = cartViewModel.getTotalPrice()
+                binding.totalPriceText.text = "Total: €${String.format("%.2f", totalPrice)}"
             }
         }
 

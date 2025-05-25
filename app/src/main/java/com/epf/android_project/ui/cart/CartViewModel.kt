@@ -49,6 +49,9 @@ class CartViewModel : ViewModel() {
     }
 
     fun getTotalPrice(): Double {
-        return _cartItems.value.sumOf { it.product.price * it.quantity }
+        return _cartItems.value.sumOf { cartItem ->
+            cartItem.product.price * cartItem.quantity
+        }
     }
+
 }
