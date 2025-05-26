@@ -25,10 +25,13 @@ class ProductRepository {
 
     suspend fun searchProducts(query: String): List<Product> {
         val allProducts = getAllProducts()
-        return allProducts.filter { product ->
-            product.title.contains(query, ignoreCase = true)
+        return allProducts.filter {
+            it.title.contains(query, ignoreCase = true) ||
+                    it.description.contains(query, ignoreCase = true) ||
+                    it.category.contains(query, ignoreCase = true)
         }
     }
+
 
 }
 
