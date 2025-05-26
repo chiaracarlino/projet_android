@@ -1,8 +1,8 @@
 package com.epf.android_project.model
 
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Product(
@@ -15,10 +15,10 @@ data class Product(
     val image: String,
     val rating: Rating,
     var isFavorite: Boolean = false
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class Rating(
     val rate: Double,
     val count: Int
-): Parcelable
+) : Parcelable

@@ -77,4 +77,7 @@ dependencies {
     implementation(libs.coroutines)
     implementation(libs.zxingAndroidEmbedded)
 
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.0.21")
+
+
 }
