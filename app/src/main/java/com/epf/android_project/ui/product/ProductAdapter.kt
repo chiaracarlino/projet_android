@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.epf.android_project.R
 import com.epf.android_project.databinding.ItemProductBinding
 import com.epf.android_project.model.Product
+import com.epf.android_project.utils.FavorisManager
 
 class ProductAdapter(
     private val onItemClick: ((Product) -> Unit)? = null
@@ -24,13 +25,11 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = getItem(position)
         holder.bind(product)
-        holder.itemView.setOnClickListener {
-            onItemClick?.let { it1 -> it1(product) }
-        }
-
     }
 
-    inner class ProductViewHolder(private val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ProductViewHolder(private val binding: ItemProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
         fun bind(product: Product) {
             binding.productTitle.text = product.title
             binding.productPrice.text = "€${product.price}"
@@ -39,15 +38,21 @@ class ProductAdapter(
                 .centerCrop()
                 .into(binding.productImage)
 
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(product)
-            }
-
-            val heartIcon = if (product.isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            val context = binding.root.context
+            val isFav = FavorisManager.isFavorite(context, product.id)
+            val heartIcon = if (isFav) R.drawable.ic_favorite else R.drawable.ic_favorite_border
             binding.favoriteIcon.setImageResource(heartIcon)
 
             binding.favoriteIcon.setOnClickListener {
-                onFavoriteClick?.invoke(product)
+                FavorisManager.toggleFavorite(context, product.id)
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    notifyItemChanged(adapterPosition)
+                }
+                onFavoriteClick?.invoke(product) // important pour ton ViewModel
+            }
+
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(product)
             }
         }
     }
@@ -60,3 +65,4 @@ class ProductAdapter(
             oldItem == newItem
     }
 }
+
