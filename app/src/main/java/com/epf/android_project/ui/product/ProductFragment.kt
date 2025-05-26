@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,8 @@ import com.epf.android_project.ui.cart.CartViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.epf.android_project.R
 
 
 class ProductFragment : Fragment() {
@@ -39,6 +42,11 @@ class ProductFragment : Fragment() {
 
         val args = ProductFragmentArgs.fromBundle(requireArguments())
         val productId = args.productId
+
+        val toolbar = view.findViewById<Toolbar>(R.id.product_toolbar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
 
         if (productId != -1) {
             viewModel.loadProductById(productId)
@@ -67,6 +75,7 @@ class ProductFragment : Fragment() {
 
 
         }
+
 
         binding.increaseQuantityButton.setOnClickListener {
             val current = binding.quantityEditText.text.toString().toIntOrNull() ?: 1
