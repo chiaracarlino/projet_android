@@ -19,7 +19,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#D3D3D3" />  <!-- trait gris clair -->
+        android:background="#D3D3D3" />
 
 </LinearLayout>
 
