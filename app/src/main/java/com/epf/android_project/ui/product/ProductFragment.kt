@@ -65,6 +65,7 @@ class ProductFragment : Fragment() {
                 Toast.makeText(requireContext(), "$quantity ajouté(s) au panier", Toast.LENGTH_SHORT).show()
             }
 
+
         }
 
         binding.increaseQuantityButton.setOnClickListener {
