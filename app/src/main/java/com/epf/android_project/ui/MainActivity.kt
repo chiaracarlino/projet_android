@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.favoritesFragment,
                 R.id.scannerFragment,
                 R.id.homeFragment,
+                R.id.shopFragment,
                 R.id.productListFragment -> toolbar.visibility = View.VISIBLE
                 else -> toolbar.visibility = View.GONE
             }

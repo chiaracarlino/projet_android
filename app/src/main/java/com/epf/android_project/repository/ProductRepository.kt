@@ -5,6 +5,7 @@ import com.epf.android_project.api.Service
 import com.epf.android_project.model.Product
 
 class ProductRepository {
+
     private val api = RetrofitClient.retrofitInstance.create(Service::class.java)
 
     suspend fun getAllProducts(): List<Product> {
@@ -31,8 +32,7 @@ class ProductRepository {
                     it.category.contains(query, ignoreCase = true)
         }
     }
-
-
 }
+
 
 

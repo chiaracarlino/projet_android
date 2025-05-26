@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epf.android_project.databinding.FragmentHomeBinding
 import com.epf.android_project.ui.product.ProductAdapter
@@ -20,8 +21,6 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: ProductViewModel by viewModels()
-    private lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,38 +31,26 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = ProductAdapter { product ->
-            val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(product.id)
-            view.findNavController().navigate(action)
+        binding.btnWomen.setOnClickListener {
+            navigateToCategory("women's clothing")
         }
-
-        binding.productsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.productsRecyclerView.adapter = adapter
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.products.collect { productList ->
-                adapter.submitList(productList)
-            }
+        binding.btnMen.setOnClickListener {
+            navigateToCategory("men's clothing")
         }
-
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { viewModel.loadProductsByCategory(it) }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-        })
-
-        adapter.onFavoriteClick = {
-            viewModel.toggleFavorite(it)
+        binding.btnElectronics.setOnClickListener {
+            navigateToCategory("electronics")
         }
+        binding.btnJewelery.setOnClickListener {
+            navigateToCategory("jewelery")
+        }
+    }
 
+    private fun navigateToCategory(category: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToShopFragment(category)
+        findNavController().navigate(action)
 
-        viewModel.loadAllProducts()
     }
 }
+
 
 
