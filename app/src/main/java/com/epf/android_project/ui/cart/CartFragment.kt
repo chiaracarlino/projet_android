@@ -45,6 +45,7 @@ class CartFragment : Fragment() {
         lifecycleScope.launch {
             cartViewModel.cartItems.collectLatest { items ->
                 cartAdapter.submitList(items)
+                binding.emptyCartText.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
                 val totalPrice = cartViewModel.getTotalPrice()
                 binding.totalPriceText.text = "Total: €${String.format("%.2f", totalPrice)}"
             }
