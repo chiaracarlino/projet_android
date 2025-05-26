@@ -77,4 +77,6 @@ dependencies {
     implementation(libs.coroutines)
     implementation(libs.zxingAndroidEmbedded)
 
+    implementation(libs.mlkit.barcode)
+
 }

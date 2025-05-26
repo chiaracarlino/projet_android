@@ -40,7 +40,6 @@ class ProductViewModel : ViewModel() {
             try {
                 _products.value = repository.getAllProducts()
             } catch (e: Exception) {
-                // gestion d'erreur ici
             }
         }
     }
@@ -50,7 +49,6 @@ class ProductViewModel : ViewModel() {
             try {
                 _selectedProduct.value = repository.getProductById(id)
             } catch (e: Exception) {
-                // gestion d'erreur ici
             }
         }
     }
@@ -60,7 +58,6 @@ class ProductViewModel : ViewModel() {
             try {
                 _categories.value = repository.getCategories()
             } catch (e: Exception) {
-                // gestion d'erreur ici
             }
         }
     }
@@ -70,7 +67,6 @@ class ProductViewModel : ViewModel() {
             try {
                 _products.value = repository.getProductsByCategory(category)
             } catch (e: Exception) {
-                // gestion d'erreur ici
             }
         }
     }
