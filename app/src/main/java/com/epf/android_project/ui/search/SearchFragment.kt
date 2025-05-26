@@ -47,6 +47,21 @@ class SearchFragment : Fragment() {
             viewModel.searchProducts(query)
         }
 
+        binding.searchInput.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                val query = binding.searchInput.text.toString().trim()
+                viewModel.searchProducts(query)
+
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.searchInput.windowToken, 0)
+
+                true
+            } else {
+                false
+            }
+        }
+
+
         viewModel.searchResults.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
