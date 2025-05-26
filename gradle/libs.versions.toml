@@ -17,6 +17,7 @@ zxing = "4.3.0"
 lifecycle = "2.6.2"
 navigation = "2.7.7"
 coroutines = "1.7.3"
+mlkit_barcode = "17.2.0"
 
 
 [libraries]
@@ -42,6 +43,7 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 zxingAndroidEmbedded = "com.journeyapps:zxing-android-embedded:4.3.0"
+mlkit_barcode = { module = "com.google.mlkit:barcode-scanning", version.ref = "mlkit_barcode" }
 
 
 [plugins]

@@ -4,18 +4,22 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.epf.android_project.databinding.FragmentScannerBinding
+import com.epf.android_project.utils.Resource
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.DecoratedBarcodeView
 
 class ScannerFragment : Fragment() {
 
     private var _binding: FragmentScannerBinding? = null
     private val binding get() = _binding!!
+    private val scannerViewModel: ScannerViewModel by viewModels()
+
 
     private val CAMERA_PERMISSION_REQUEST_CODE = 1001
 
@@ -29,11 +33,29 @@ class ScannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         if (hasCameraPermission()) {
             startScanning()
         } else {
             requestCameraPermission()
+        }
+        scannerViewModel.scannedProduct.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                }
+                is Resource.Success -> {
+                    resource.data?.let { product ->
+                        Toast.makeText(requireContext(), "Produit trouvé : ${product.title}", Toast.LENGTH_LONG).show()
+                    } ?: run {
+                        Toast.makeText(requireContext(), "Produit introuvable", Toast.LENGTH_LONG).show()
+                        binding.barcodeScanner.resume()
+                    }
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_LONG).show()
+                    binding.barcodeScanner.resume()
+                }
+                null -> {}
+            }
         }
     }
 
@@ -59,7 +81,6 @@ class ScannerFragment : Fragment() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startScanning()
             } else {
-                // Affiche un message à l’utilisateur que la permission est nécessaire
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -69,13 +90,9 @@ class ScannerFragment : Fragment() {
     private val callback = object : BarcodeCallback {
         override fun barcodeResult(result: BarcodeResult?) {
             result?.let {
-                // Traite le résultat du scan ici
                 val scannedText = it.text
-                // Par exemple, afficher le code scanné
-                // Toast.makeText(requireContext(), "Scanné : $scannedText", Toast.LENGTH_SHORT).show()
-
-                // Stopper le scan après un résultat (optionnel)
                 binding.barcodeScanner.pause()
+                scannerViewModel.processScannedQRCode(scannedText)
             }
         }
 

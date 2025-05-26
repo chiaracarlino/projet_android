@@ -35,7 +35,6 @@ class FavoritesFragment : Fragment() {
         adapter = ProductAdapter()
         adapter.onFavoriteClick = {
             FavorisManager.toggleFavorite(requireContext(), it.id)
-            // Pas besoin de refreshFavorites(), car collectLatest observe déjà les changements
         }
 
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())

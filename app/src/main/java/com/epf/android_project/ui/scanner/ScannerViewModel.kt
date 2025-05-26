@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.epf.android_project.model.Product
 import com.epf.android_project.repository.ProductRepository
 import com.epf.android_project.utils.Resource
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ScannerViewModel : ViewModel() {
