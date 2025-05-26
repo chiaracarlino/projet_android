@@ -48,7 +48,7 @@ class ProductAdapter(
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     notifyItemChanged(adapterPosition)
                 }
-                onFavoriteClick?.invoke(product) // important pour ton ViewModel
+                onFavoriteClick?.invoke(product)
             }
 
             binding.root.setOnClickListener {
