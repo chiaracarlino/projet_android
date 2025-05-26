@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:paddingBottom="72dp">
+    android:paddingBottom="72dp"
+    android:scrollbars="vertical"
+    android:fadeScrollbars="false">
 
     <TextView
         android:id="@+id/emptyCartText"
