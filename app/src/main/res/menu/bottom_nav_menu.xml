@@ -6,6 +6,12 @@
         android:title="Accueil" />
 
     <item
+        android:id="@+id/shopFragment"
+        android:icon="@drawable/ic_shop"
+        android:title="Shop" />
+
+
+    <item
         android:id="@+id/scannerFragment"
         android:icon="@drawable/ic_scan"
         android:title="Scanner" />

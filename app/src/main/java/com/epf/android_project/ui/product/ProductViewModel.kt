@@ -1,5 +1,6 @@
 package com.epf.android_project.ui.product
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.epf.android_project.model.Product
@@ -29,17 +30,16 @@ class ProductViewModel : ViewModel() {
         val updatedList = _products.value.map {
             if (it.id == product.id) updatedProduct else it
         }
-
         _products.value = updatedList
         _favorites.value = updatedList.filter { it.isFavorite }
     }
-
 
     fun loadAllProducts() {
         viewModelScope.launch {
             try {
                 _products.value = repository.getAllProducts()
             } catch (e: Exception) {
+                Log.e("ProductViewModel", "Erreur loadAllProducts: ${e.message}")
             }
         }
     }
@@ -49,6 +49,7 @@ class ProductViewModel : ViewModel() {
             try {
                 _selectedProduct.value = repository.getProductById(id)
             } catch (e: Exception) {
+                Log.e("ProductViewModel", "Erreur loadProductById: ${e.message}")
             }
         }
     }
@@ -58,6 +59,7 @@ class ProductViewModel : ViewModel() {
             try {
                 _categories.value = repository.getCategories()
             } catch (e: Exception) {
+                Log.e("ProductViewModel", "Erreur loadCategories: ${e.message}")
             }
         }
     }
@@ -67,7 +69,9 @@ class ProductViewModel : ViewModel() {
             try {
                 _products.value = repository.getProductsByCategory(category)
             } catch (e: Exception) {
+                Log.e("ProductViewModel", "Erreur loadProductsByCategory: ${e.message}")
             }
         }
     }
 }
+

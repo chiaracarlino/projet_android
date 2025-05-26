@@ -1,50 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pastel_background"
-    android:scrollbars="vertical"
-    android:fadeScrollbars="false">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- App Name -->
     <TextView
-        android:id="@+id/homeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lukia"
+        android:text="Bienvenue sur LUKIA"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/primary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:textColor="@color/black"
+        android:layout_gravity="center"/>
 
-    <!-- SearchView -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/btnWomen"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Rechercher un produit"
-        app:layout_constraintTop_toBottomOf="@id/homeTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        android:text="Women's Clothing" />
 
-    <!-- RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productsRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/searchView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="8dp"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp" />
+    <Button
+        android:id="@+id/btnMen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Men's Clothing" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnElectronics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Electronics" />
 
+    <Button
+        android:id="@+id/btnJewelery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jewelery" />
+</LinearLayout>
