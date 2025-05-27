@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.epf.android_project.databinding.FragmentScannerBinding
 import com.epf.android_project.utils.Resource
 import com.journeyapps.barcodescanner.BarcodeCallback
@@ -38,13 +39,19 @@ class ScannerFragment : Fragment() {
         } else {
             requestCameraPermission()
         }
+
+        //pour tester le qrcode
+        binding.fakeScanButton.setOnClickListener {
+            val fakeQrCode = "3"
+            scannerViewModel.processScannedQRCode(fakeQrCode)
+        }
         scannerViewModel.scannedProduct.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Loading -> {
-                }
+
                 is Resource.Success -> {
                     resource.data?.let { product ->
-                        Toast.makeText(requireContext(), "Produit trouvé : ${product.title}", Toast.LENGTH_LONG).show()
+                        val action = ScannerFragmentDirections.actionScannerFragmentToProductFragment(product.id)
+                        findNavController().navigate(action)
                     } ?: run {
                         Toast.makeText(requireContext(), "Produit introuvable", Toast.LENGTH_LONG).show()
                         binding.barcodeScanner.resume()
@@ -54,6 +61,7 @@ class ScannerFragment : Fragment() {
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_LONG).show()
                     binding.barcodeScanner.resume()
                 }
+                is Resource.Loading -> {}
                 null -> {}
             }
         }
@@ -121,4 +129,5 @@ class ScannerFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

@@ -20,4 +20,12 @@
         android:background="#AA000000"
         android:textColor="#FFFFFF" />
 
+    <!--pour tester le qrcode -->
+    <Button
+        android:id="@+id/fakeScanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Simuler un scan"
+        android:layout_gravity="center"
+        />
 </FrameLayout>
