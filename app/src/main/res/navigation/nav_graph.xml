@@ -89,7 +89,16 @@
         android:id="@+id/favoritesFragment"
         android:name="com.epf.android_project.ui.favorites.FavoritesFragment"
         android:label="Favoris"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favorites_to_productDetail"
+            app:destination="@id/productFragment">
+            <argument
+                android:name="productId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
 
 </navigation>
 

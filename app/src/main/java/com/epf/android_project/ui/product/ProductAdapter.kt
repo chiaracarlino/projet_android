@@ -12,7 +12,7 @@ import com.epf.android_project.model.Product
 import com.epf.android_project.utils.FavorisManager
 
 class ProductAdapter(
-    private val onItemClick: ((Product) -> Unit)? = null
+    var onItemClick: ((Product) -> Unit)? = null
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
 
     var onFavoriteClick: ((Product) -> Unit)? = null
@@ -45,15 +45,15 @@ class ProductAdapter(
 
             binding.favoriteIcon.setOnClickListener {
                 FavorisManager.toggleFavorite(context, product.id)
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    notifyItemChanged(adapterPosition)
-                }
-                onFavoriteClick?.invoke(product)
+                onFavoriteClick?.invoke(product) // laisse l’adapter gérer la nouvelle liste
             }
+
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(product)
             }
+
+
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epf.android_project.databinding.FragmentFavoritesBinding
 import com.epf.android_project.ui.product.ProductAdapter
@@ -22,6 +23,14 @@ class FavoritesFragment : Fragment() {
     private val viewModel: ProductViewModel by viewModels({ requireActivity() })
     private lateinit var adapter: ProductAdapter
 
+    private fun updateFavoriteList() {
+        val favoritesIds = FavorisManager.getFavorites(requireContext())
+        val favoriteProducts = viewModel.products.value.filter { it.id in favoritesIds }
+        adapter.submitList(favoriteProducts)
+
+        binding.emptyTextView.visibility = if (favoriteProducts.isEmpty()) View.VISIBLE else View.GONE
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,9 +42,30 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = ProductAdapter()
-        adapter.onFavoriteClick = {
-            FavorisManager.toggleFavorite(requireContext(), it.id)
+
+        // Action quand on clique sur un produit
+        adapter.onItemClick = { product ->
+            // Navigue vers la fiche produit
+            val action = FavoritesFragmentDirections.actionFavoritesToProductDetail(product.id)
+            findNavController().navigate(action)
         }
+
+        // Action quand on clique sur le cœur
+        adapter.onFavoriteClick = { product ->
+            FavorisManager.toggleFavorite(requireContext(), product.id)
+
+            // On crée une nouvelle liste pour forcer le refresh (évite bug de DiffUtil)
+            val favoritesIds = FavorisManager.getFavorites(requireContext())
+            val newList = viewModel.products.value
+                .map { it.copy(isFavorite = FavorisManager.isFavorite(requireContext(), it.id)) }
+                .filter { it.id in favoritesIds }
+
+            adapter.submitList(newList)
+
+            binding.emptyTextView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+
 
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.favoritesRecyclerView.adapter = adapter
