@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.epf.android_project.ui.MainActivity
@@ -28,6 +29,11 @@ class LoginActivity : AppCompatActivity() {
         val usernameField = findViewById<EditText>(R.id.usernameInput)
         val passwordField = findViewById<EditText>(R.id.passwordInput)
         val loginButton = findViewById<Button>(R.id.loginButton)
+        val registerText = findViewById<TextView>(R.id.goToRegister)
+
+        registerText.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
 
         loginButton.setOnClickListener {
             val username = usernameField.text.toString()
@@ -39,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Remplis tous les champs", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun login(username: String, password: String) {
@@ -72,5 +79,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun goToRegister() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }
