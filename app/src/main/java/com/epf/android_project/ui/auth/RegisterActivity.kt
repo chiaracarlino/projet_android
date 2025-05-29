@@ -20,6 +20,9 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Inscription"
+
         val username = findViewById<EditText>(R.id.registerUsername)
         val password = findViewById<EditText>(R.id.registerPassword)
         val email = findViewById<EditText>(R.id.registerEmail)
@@ -37,6 +40,11 @@ class RegisterActivity : AppCompatActivity() {
 
             register(user, pass, mail)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     private fun register(username: String, password: String, email: String) {

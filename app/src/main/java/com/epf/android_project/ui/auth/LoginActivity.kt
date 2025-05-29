@@ -18,7 +18,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() { // se connecter avec username: mor_2314 et mdp: 83r5^_
 
     private val client = OkHttpClient()
 
