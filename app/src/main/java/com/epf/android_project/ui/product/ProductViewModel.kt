@@ -1,10 +1,12 @@
 package com.epf.android_project.ui.product
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.epf.android_project.model.Product
 import com.epf.android_project.repository.ProductRepository
+import com.epf.android_project.utils.FavorisManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -73,5 +75,14 @@ class ProductViewModel : ViewModel() {
             }
         }
     }
+
+    fun refreshFavorites(context: Context) {
+        val ids = FavorisManager.getFavorites(context)
+        val updatedList = _products.value.map {
+            it.copy(isFavorite = ids.contains(it.id))
+        }
+        _products.value = updatedList
+    }
+
 }
 
