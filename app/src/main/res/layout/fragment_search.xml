@@ -7,6 +7,10 @@
     android:background="#FFF5F7FA"
     android:padding="16dp">
 
+    <Space
+        android:layout_width="382dp"
+        android:layout_height="69dp" />
+
     <EditText
         android:id="@+id/search_input"
         android:layout_width="match_parent"

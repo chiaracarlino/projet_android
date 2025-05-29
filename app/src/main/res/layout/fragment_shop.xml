@@ -11,6 +11,10 @@
         android:background="#FFF5F7FA"
         android:padding="16dp">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/shopSearchView"
             android:layout_width="match_parent"
