@@ -1,5 +1,6 @@
 package com.epf.android_project.ui.product
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -44,9 +45,12 @@ class ProductAdapter(
             binding.favoriteIcon.setImageResource(heartIcon)
 
             binding.favoriteIcon.setOnClickListener {
+                Log.d("ProductAdapter", "Heart clicked for product id=${product.id}")
                 FavorisManager.toggleFavorite(context, product.id)
-                onFavoriteClick?.invoke(product) // laisse l’adapter gérer la nouvelle liste
+                notifyItemChanged(adapterPosition)
+                onFavoriteClick?.invoke(product)
             }
+
 
 
             binding.root.setOnClickListener {

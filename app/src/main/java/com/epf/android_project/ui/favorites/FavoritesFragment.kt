@@ -57,8 +57,8 @@ class FavoritesFragment : Fragment() {
             // On crée une nouvelle liste pour forcer le refresh (évite bug de DiffUtil)
             val favoritesIds = FavorisManager.getFavorites(requireContext())
             val newList = viewModel.products.value
-                .map { it.copy(isFavorite = FavorisManager.isFavorite(requireContext(), it.id)) }
-                .filter { it.id in favoritesIds }
+                .filter { p -> FavorisManager.isFavorite(requireContext(), p.id) }
+                .map { it.copy(isFavorite = true) }
 
             adapter.submitList(newList)
 
@@ -88,6 +88,23 @@ class FavoritesFragment : Fragment() {
                 }
             }
         }
+        adapter.onFavoriteClick = { product ->
+            FavorisManager.toggleFavorite(requireContext(), product.id)
+
+            // On met à jour le champ isFavorite localement
+            val updatedList = viewModel.products.value.map {
+                if (it.id == product.id) it.copy(isFavorite = !it.isFavorite) else it
+            }
+
+            val favoritesIds = FavorisManager.getFavorites(requireContext())
+            val filteredFavorites = updatedList.filter { it.id in favoritesIds }
+
+            adapter.submitList(filteredFavorites)
+
+            binding.emptyTextView.visibility = if (filteredFavorites.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+
     }
 }
 
