@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/lukiaTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bienvenue chez Lukia"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="@android:color/black" />
+
+
+    <EditText
+        android:id="@+id/registerUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom d'utilisateur" />
+
+    <EditText
+        android:id="@+id/registerEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/registerPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="S'inscrire"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
