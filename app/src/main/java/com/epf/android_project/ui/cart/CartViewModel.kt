@@ -13,11 +13,10 @@ class CartViewModel : ViewModel() {
 
     fun addProductToCart(product: Product) {
         val currentList = _cartItems.value.toMutableList()
-        val index = currentList.indexOfFirst { it.product.id == product.id }
+        val existingItem = currentList.find { it.product.id == product.id }
 
-        if (index != -1) {
-            val currentItem = currentList[index]
-            currentList[index] = currentItem.copy(quantity = currentItem.quantity + 1)
+        if (existingItem != null) {
+            existingItem.quantity += 1
         } else {
             currentList.add(CartItem(product))
         }
@@ -31,18 +30,18 @@ class CartViewModel : ViewModel() {
     }
 
     fun decreaseProductQuantity(product: Product) {
-        val currentList = _cartItems.value.toMutableList()
-        val index = currentList.indexOfFirst { it.product.id == product.id }
+        val updatedList = _cartItems.value.toMutableList()
+        val item = updatedList.find { it.product.id == product.id }
 
-        if (index != -1) {
-            val currentItem = currentList[index]
-            if (currentItem.quantity > 1) {
-                currentList[index] = currentItem.copy(quantity = currentItem.quantity - 1)
+        if (item != null) {
+            if (item.quantity > 1) {
+                item.quantity -= 1
             } else {
-                currentList.removeAt(index)
+                updatedList.remove(item)
             }
-            _cartItems.value = currentList
         }
+
+        _cartItems.value = updatedList
     }
 
     fun clearCart() {
@@ -50,6 +49,10 @@ class CartViewModel : ViewModel() {
     }
 
     fun getTotalPrice(): Double {
-        return _cartItems.value.sumOf { it.product.price * it.quantity }
+        return _cartItems.value.sumOf { cartItem ->
+            cartItem.product.price * cartItem.quantity
+        }
     }
+
+
 }

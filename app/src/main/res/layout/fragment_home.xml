@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Bienvenue sur LUKIA"
         android:textSize="24sp"
+        android:layout_marginTop="40dp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_gravity="center"/>
@@ -38,8 +39,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Jewelery" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 </LinearLayout>
