@@ -15,7 +15,6 @@
         app:navigationIconTint="#000000"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
-    <!-- ✅ Le contenu scrollable vient en dessous -->
     <ScrollView
         android:id="@+id/product_scrollview"
         android:layout_width="match_parent"
@@ -50,13 +49,6 @@
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textColor="#7F7F7F"
                 android:paddingTop="4dp" />
-
-            <TextView
-                android:id="@+id/product_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:textColor="#555555" />
 
             <LinearLayout
                 android:id="@+id/quantitySelector"
@@ -93,9 +85,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_to_cart"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="#AEC6CF"
+                android:backgroundTint="#B3B5B6"
                 android:textColor="#333" />
 
+            <TextView
+                android:id="@+id/product_description"
+                android:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textColor="#555555" />
+
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epf.android_project.databinding.FragmentShopBinding
 import com.epf.android_project.ui.product.ProductAdapter
 
-
 class ShopFragment : Fragment() {
 
     private lateinit var binding: FragmentShopBinding
@@ -29,40 +28,49 @@ class ShopFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         adapter = ProductAdapter { product ->
             val action = ShopFragmentDirections.actionShopFragmentToProductFragment(product.id)
             findNavController().navigate(action)
         }
 
-
-        binding.productsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.productsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.productsRecyclerView.adapter = adapter
 
-        val category = arguments?.getString("category") ?: ""
-        shopViewModel.loadProducts(category)
+        val category = arguments?.getString("category")
+
+        if (!category.isNullOrEmpty()) {
+            shopViewModel.loadProducts(category)
+
+            binding.backButton.visibility = View.VISIBLE
+            binding.backButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        } else {
+            shopViewModel.loadProducts("")
+            binding.backButton.visibility = View.GONE
+        }
+
 
         shopViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
             adapter.submitList(products)
             binding.noResultsText.visibility = if (products.isEmpty()) View.VISIBLE else View.GONE
-
         }
 
         val searchView = binding.shopSearchView
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?) = true
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 shopViewModel.filterProducts(newText)
                 return true
             }
         })
 
-
         adapter.onFavoriteClick = {
             shopViewModel.toggleFavorite(it)
-
         }
     }
 }
+
 
