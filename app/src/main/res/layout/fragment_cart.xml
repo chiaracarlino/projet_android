@@ -18,6 +18,7 @@
         android:textSize="18sp"
         android:layout_gravity="center"
         android:visibility="gone"
+        android:layout_marginTop="16dp"
         android:textColor="@android:color/darker_gray"/>
 
 
@@ -38,15 +39,11 @@
         android:textStyle="bold" />
 
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/checkoutButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="0dp"
         android:text="Valider le panier" />
 </LinearLayout>

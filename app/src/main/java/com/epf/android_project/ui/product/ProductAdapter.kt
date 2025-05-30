@@ -1,5 +1,6 @@
 package com.epf.android_project.ui.product
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +13,7 @@ import com.epf.android_project.model.Product
 import com.epf.android_project.utils.FavorisManager
 
 class ProductAdapter(
-    private val onItemClick: ((Product) -> Unit)? = null
+    var onItemClick: ((Product) -> Unit)? = null
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
 
     var onFavoriteClick: ((Product) -> Unit)? = null
@@ -44,16 +45,19 @@ class ProductAdapter(
             binding.favoriteIcon.setImageResource(heartIcon)
 
             binding.favoriteIcon.setOnClickListener {
+                Log.d("ProductAdapter", "Heart clicked for product id=${product.id}")
                 FavorisManager.toggleFavorite(context, product.id)
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    notifyItemChanged(adapterPosition)
-                }
+                notifyItemChanged(adapterPosition)
                 onFavoriteClick?.invoke(product)
             }
+
+
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(product)
             }
+
+
         }
     }
 
