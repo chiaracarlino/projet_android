@@ -53,6 +53,8 @@ class ProductAdapter(
 
     }
 
+
+
     class DiffCallback : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
             oldItem.id == newItem.id
@@ -60,5 +62,7 @@ class ProductAdapter(
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
             oldItem == newItem
     }
+
+
 }
 
