@@ -10,9 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.epf.android_project.databinding.FragmentShopBinding
 import com.epf.android_project.ui.product.ProductAdapter
 import com.epf.android_project.ui.product.ProductViewModel
+import com.epf.android_project.utils.FavorisManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -44,14 +46,17 @@ class ShopFragment : Fragment() {
             viewModel.loadAllProducts()
         }
 
-        binding.productsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.productsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.productsRecyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.products.collectLatest { productList ->
-                adapter.submitList(productList)
+                val updatedList = productList.map { product ->
+                    product.copy(isFavorite = FavorisManager.isFavorite(requireContext(), product.id))
+                }
+                adapter.submitList(updatedList)
 
-                binding.noResultsText.visibility = if (productList.isEmpty())
+                binding.noResultsText.visibility = if (updatedList.isEmpty())
                     View.VISIBLE else View.GONE
             }
         }
@@ -67,10 +72,14 @@ class ShopFragment : Fragment() {
             }
         })
 
-        adapter.onFavoriteClick = {
-            viewModel.toggleFavorite(it)
-        }
+        adapter.onFavoriteClick = { product ->
+            FavorisManager.toggleFavorite(requireContext(), product.id)
 
-        viewModel.loadAllProducts()
+            val currentList = viewModel.products.value
+            val updatedList = currentList.map {
+                it.copy(isFavorite = FavorisManager.isFavorite(requireContext(), it.id))
+            }
+            adapter.submitList(updatedList)
+        }
     }
 }

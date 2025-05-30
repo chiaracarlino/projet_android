@@ -1,7 +1,6 @@
 package com.epf.android_project.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +22,6 @@ class FavoritesFragment : Fragment() {
     private val viewModel: ProductViewModel by viewModels({ requireActivity() })
     private lateinit var adapter: ProductAdapter
 
-    private fun updateFavoriteList() {
-        val favoritesIds = FavorisManager.getFavorites(requireContext())
-        val favoriteProducts = viewModel.products.value.filter { it.id in favoritesIds }
-        adapter.submitList(favoriteProducts)
-
-        binding.emptyTextView.visibility = if (favoriteProducts.isEmpty()) View.VISIBLE else View.GONE
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,29 +34,23 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = ProductAdapter()
 
-        // Action quand on clique sur un produit
         adapter.onItemClick = { product ->
-            // Navigue vers la fiche produit
             val action = FavoritesFragmentDirections.actionFavoritesToProductDetail(product.id)
             findNavController().navigate(action)
         }
 
-        // Action quand on clique sur le cœur
         adapter.onFavoriteClick = { product ->
             FavorisManager.toggleFavorite(requireContext(), product.id)
 
-            // On crée une nouvelle liste pour forcer le refresh (évite bug de DiffUtil)
-            val favoritesIds = FavorisManager.getFavorites(requireContext())
-            val newList = viewModel.products.value
-                .filter { p -> FavorisManager.isFavorite(requireContext(), p.id) }
+            val updatedList = viewModel.products.value
+                .filter { FavorisManager.isFavorite(requireContext(), it.id) }
                 .map { it.copy(isFavorite = true) }
 
-            adapter.submitList(newList)
+            adapter.submitList(updatedList)
 
-            binding.emptyTextView.visibility = if (newList.isEmpty()) View.VISIBLE else View.GONE
+            binding.emptyTextView.visibility =
+                if (updatedList.isEmpty()) View.VISIBLE else View.GONE
         }
-
-
 
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.favoritesRecyclerView.adapter = adapter
@@ -74,38 +59,18 @@ class FavoritesFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.products.collectLatest { products ->
-                val favoritesIds = FavorisManager.getFavorites(requireContext())
-                val favoriteProducts = products.filter { it.id in favoritesIds }
-                adapter.submitList(favoriteProducts)
+                val favorites = products
+                    .filter { FavorisManager.isFavorite(requireContext(), it.id) }
+                    .map { it.copy(isFavorite = true) }
 
-                Log.d("FavoritesFragment", "Nombre de favoris : ${favoriteProducts.size}")
-                binding.emptyTextView.visibility = if (favoriteProducts.isEmpty()) {
-                    Log.d("FavoritesFragment", "Aucun favori -> on affiche le message")
-                    View.VISIBLE
-                } else {
-                    Log.d("FavoritesFragment", "Des favoris -> on cache le message")
-                    View.GONE
-                }
+                adapter.submitList(favorites)
+
+                binding.emptyTextView.visibility =
+                    if (favorites.isEmpty()) View.VISIBLE else View.GONE
             }
         }
-        adapter.onFavoriteClick = { product ->
-            FavorisManager.toggleFavorite(requireContext(), product.id)
-
-            // On met à jour le champ isFavorite localement
-            val updatedList = viewModel.products.value.map {
-                if (it.id == product.id) it.copy(isFavorite = !it.isFavorite) else it
-            }
-
-            val favoritesIds = FavorisManager.getFavorites(requireContext())
-            val filteredFavorites = updatedList.filter { it.id in favoritesIds }
-
-            adapter.submitList(filteredFavorites)
-
-            binding.emptyTextView.visibility = if (filteredFavorites.isEmpty()) View.VISIBLE else View.GONE
-        }
-
-
     }
 }
+
 
 
