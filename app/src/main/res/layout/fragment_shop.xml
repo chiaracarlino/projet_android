@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#FFF5F7FA"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_marginTop="60dp">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/shopSearchView"
