@@ -12,7 +12,6 @@
         android:id="@+id/scan_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="Scannez votre article"
         android:textSize="18sp"
         android:layout_gravity="top|center_horizontal"

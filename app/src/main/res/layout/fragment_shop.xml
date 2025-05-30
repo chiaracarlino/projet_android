@@ -9,8 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#FFF5F7FA"
-        android:padding="16dp"
-        android:layout_marginTop="60dp">
+        android:padding="16dp">
 
         <Space
             android:layout_width="match_parent"
