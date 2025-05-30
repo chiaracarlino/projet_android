@@ -7,15 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.epf.android_project.R
 import com.epf.android_project.databinding.FragmentShopBinding
 import com.epf.android_project.ui.product.ProductAdapter
-import com.epf.android_project.ui.product.ProductViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ShopFragment : Fragment() {
 

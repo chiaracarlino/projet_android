@@ -50,7 +50,7 @@ class ShopViewModel : ViewModel() {
     }
 
     fun toggleFavorite(product: Product) {
-        // Implémente si nécessaire
+        // a implementer si besoin
     }
 }
 
