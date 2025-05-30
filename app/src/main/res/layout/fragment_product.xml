@@ -63,7 +63,9 @@
                     android:text="-"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@android:color/black"/>
+
 
                 <TextView
                     android:id="@+id/quantityEditText"
@@ -78,7 +80,9 @@
                     android:text="+"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@android:color/black" />
+
             </LinearLayout>
 
             <Button
