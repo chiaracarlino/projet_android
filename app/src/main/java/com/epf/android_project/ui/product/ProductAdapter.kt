@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.epf.android_project.R
 import com.epf.android_project.databinding.ItemProductBinding
 import com.epf.android_project.model.Product
-import com.epf.android_project.utils.FavorisManager
 
 class ProductAdapter(
     var onItemClick: ((Product) -> Unit)? = null
@@ -39,26 +38,19 @@ class ProductAdapter(
                 .centerCrop()
                 .into(binding.productImage)
 
-            val context = binding.root.context
-            val isFav = FavorisManager.isFavorite(context, product.id)
-            val heartIcon = if (isFav) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            val heartIcon = if (product.isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
             binding.favoriteIcon.setImageResource(heartIcon)
 
             binding.favoriteIcon.setOnClickListener {
                 Log.d("ProductAdapter", "Heart clicked for product id=${product.id}")
-                FavorisManager.toggleFavorite(context, product.id)
-                notifyItemChanged(adapterPosition)
                 onFavoriteClick?.invoke(product)
             }
-
-
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(product)
             }
-
-
         }
+
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Product>() {
