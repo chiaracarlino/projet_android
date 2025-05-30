@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_fragment_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFF5F7FA"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/search_input"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Rechercher un produit"
-        android:inputType="text"
-        android:imeOptions="actionSearch"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:layout_marginTop="40dp"
-        android:background="@android:drawable/editbox_background_normal" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/no_results_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Aucun résultat trouvé."
-        android:gravity="center"
-        android:padding="16dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
-        android:visibility="gone" />
+        <!-- SearchView pour la recherche -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Rechercher un produit" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/products_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="12dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
-</LinearLayout>
+        <!-- Texte pour les résultats vides -->
+        <TextView
+            android:id="@+id/noResultsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aucun produit trouvé"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:padding="8dp"
+            android:textColor="@android:color/darker_gray" />
+
+        <!-- RecyclerView des produits -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
