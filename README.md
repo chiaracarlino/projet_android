@@ -47,19 +47,22 @@ This Android application is an online shop that allows users to browse, search, 
 
 ## Project Structure
 
+```
 com.epf.android_project
-├── api           # Retrofit API service definitions
-├── model         # Data models (e.g., Product)
-├── repository    # API calls and data fetching logic
-├── ui
-│   ├──auth       # Authentication-related screens (login, register)
-│   ├──cart       # Cart-related screens (list, checkout)
-│   ├──favorites  # Favorites screen
-│   ├──home       # Home screen (product list)
-│   ├──product   # Product-related screens (list, details)
-│   ├──scanner   # Product scanner
-│   └──shop      # Shop screen (filtering, search)
-├── utils         # Utilities (e.g., favorites management)
+├── api           # Retrofit API service definitions  
+├── model         # Data models (e.g., Product)  
+├── repository    # API calls and data fetching logic  
+├── ui  
+│   ├──auth       # Authentication-related screens (login, register)  
+│   ├──cart       # Cart-related screens (list, checkout)  
+│   ├──favorites  # Favorites screen  
+│   ├──home       # Home screen (product list)  
+│   ├──product    # Product-related screens (list, details)  
+│   ├──scanner    # Product scanner  
+│   └──shop       # Shop screen (filtering, search)  
+├── utils         # Utilities (e.g., favorites management)  
+```
+
 
 
 ## Notes
