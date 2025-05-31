@@ -1,6 +1,5 @@
 package com.epf.android_project.ui.product
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,10 +12,9 @@ import com.epf.android_project.model.Product
 import com.epf.android_project.utils.FavorisManager
 
 class ProductAdapter(
-    var onItemClick: ((Product) -> Unit)? = null
-) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
-
+    var onItemClick: ((Product) -> Unit)? = null,
     var onFavoriteClick: ((Product) -> Unit)? = null
+) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -40,28 +38,20 @@ class ProductAdapter(
                 .into(binding.productImage)
 
             val context = binding.root.context
-            val isFav = FavorisManager.isFavorite(context, product.id)
-            val heartIcon = if (isFav) R.drawable.ic_favorite else R.drawable.ic_favorite_border
+            val isFavorite = FavorisManager.isFavorite(context, product.id)
+            val heartIcon = if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border
             binding.favoriteIcon.setImageResource(heartIcon)
 
             binding.favoriteIcon.setOnClickListener {
-                Log.d("ProductAdapter", "Heart clicked for product id=${product.id}")
                 FavorisManager.toggleFavorite(context, product.id)
-                notifyItemChanged(adapterPosition)
                 onFavoriteClick?.invoke(product)
             }
-
-
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(product)
             }
-
-
         }
     }
-
-
 
     class DiffCallback : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
@@ -70,7 +60,6 @@ class ProductAdapter(
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
             oldItem == newItem
     }
-
-
 }
+
 
