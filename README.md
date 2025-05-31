@@ -13,8 +13,8 @@ This Android application is an online shop that allows users to browse, search, 
 
 ## Key Features
 
-- **Product display** in a grid with optimized pagination
-- **Real-time search** by product name, description, or category
+- **Product display** in a linear layout with optimized pagination
+- **Real-time search** by product name or description
 - **Category filtering** to easily browse the catalog
 - **Favorites**: add or remove products from favorites
 - **Product details** screen with full information
